@@ -10,9 +10,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <MainPage />, // MainPage 를 루트로 설정
+    element: <MainPage />,
     children: [
-      // MainPage의 자식 라우트
       { path: 'home', element: <MainPage /> },
       { path: 'issue', element: <IssueWritePage /> },
       { path: 'issue-list', element: <MainPage /> },
