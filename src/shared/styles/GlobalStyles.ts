@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import PretendardRegular from '@/assets/fonts/Pretendard-Regular.subset.woff2'
+import PretendardRegular from '../../assets/fonts/Pretendard-Regular.subset.woff2'
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -35,17 +35,10 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    overflow-wrap: break-word;
     -moz-tab-size: 4;
     tab-size: 4;
 
     -webkit-tap-highlight-color: transparent;
-  }
-  img,  
-  video, 
-  svg {
-    display: block;
-    max-width: 100%;
   }
   button {
     cursor: pointer;
@@ -67,7 +60,6 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard';
-    background-color: black;
   }
 `
 
