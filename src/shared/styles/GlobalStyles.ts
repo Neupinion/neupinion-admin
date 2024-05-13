@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import PretendardRegular from '../../assets/fonts/Pretendard-Regular.subset.woff2'
 import PretendardBold from '../../assets/fonts/Pretendard-Bold.subset.woff2'
+import PretendardExtraBold from '../../assets/fonts/Pretendard-ExtraBold.subset.woff2'
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -19,6 +20,15 @@ const GlobalStyles = createGlobalStyle`
     src:
       local('Pretendard'),
       url(${PretendardBold}) format('woff2');
+  }
+
+  @font-face {
+      font-family: "Pretendard";
+      font-weight: 800;
+      font-style: normal;
+      src:
+              local('Pretendard'),
+              url(${PretendardExtraBold}) format('woff2');
   }
 
   * {
@@ -72,7 +82,7 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Pretendard';
   }
   h1 {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 2em;
   }
   h2 {
