@@ -1,26 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {
-  Paragraph,
-  ParagraphWrapper,
-} from '@/features/markdown/component/Paragraph'
-import { Editor } from '@/features/markdown/component/Editor'
+import { Editor } from '../features/markdown/component/Editor'
+import { MarkdownPreview } from '../features/markdown/component/MarkdownPreview'
 
 function IssueWritePage() {
-  const [paragraphs, setParagraphs] = useState<string[]>([])
-
-  const addParagraph = (paragraph: string) => {
-    setParagraphs([...paragraphs, paragraph])
-  }
+  const [content, setContent] = useState('')
 
   return (
     <Container>
-      <ParagraphWrapper>
-        {paragraphs.map((paragraph, index) => (
-          <Paragraph key={index} body={paragraph} selectable={false} />
-        ))}
-      </ParagraphWrapper>
-      <Editor onClick={addParagraph} />
+      <Editor onChange={setContent} />
+      <MarkdownPreview content={content} />
     </Container>
   )
 }
@@ -29,4 +18,8 @@ export default IssueWritePage
 
 const Container = styled.div`
   height: 100vh;
+  width: 100vw;
+  display: inline-flex;
+  flex-direction: row;
+  overflow: hidden;
 `

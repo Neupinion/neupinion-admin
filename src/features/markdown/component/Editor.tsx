@@ -1,45 +1,74 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 interface EditorProps {
-  onClick: (paragraph: string) => void
+  onChange: (content: string) => void
 }
 
 export const Editor = (props: EditorProps) => {
-  const [content, setContent] = useState<string>('')
-  const onClick = () => {
-    props.onClick(content)
-    setContent('')
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+    }
   }
 
-  const handleParagraphChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value)
-  }
+  useEffect(() => {
+    props.onChange(`# ${title}\n` + content)
+  }, [title, content])
 
   return (
     <EditorWrapper>
-      <EditorTextBox value={content} onChange={handleParagraphChange} />
-      <SelectableButton onClick={onClick}>작성하기</SelectableButton>
+      <EditorTitleBox
+        onChange={e => setTitle(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <EditorDivider />
+      <EditorTextBox onChange={e => setContent(e.target.value)} />
     </EditorWrapper>
   )
 }
 
 const EditorWrapper = styled.div`
-  padding: 10px;
-  height: 10vh;
+  height: 100%;
+  width: 50%;
   display: flex;
-  align-content: center;
+  flex-direction: column;
+  border-right: grey 1px solid;
 `
 
-const SelectableButton = styled.button`
-  margin-left: 10px;
+const EditorDivider = styled.hr`
+  height: 2px;
+  margin: 5px;
+  background: darkgray;
+  border: none;
+`
+
+const EditorTitleBox = styled.textarea`
+  background: #ffffff;
+  font-size: 24px;
+  height: 5%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  outline: none;
+  border: none;
+  resize: none;
+  padding: 15px;
+  font-weight: bold;
 `
 
 const EditorTextBox = styled.textarea`
-  background: #ececec;
-  resize: none;
-  border: #d3d3d3 1px solid;
-  border-radius: 5px;
-  overflow: hidden;
+  background: #ffffff;
+  font-size: 20px;
+  height: 95%;
+  width: 100%;
+  overflow: auto;
+  scrollbar-color: #c4c4c4 #ffffff;
   outline: none;
+  border: none;
+  resize: none;
+  padding: 10px;
 `
