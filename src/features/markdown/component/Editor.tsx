@@ -48,7 +48,7 @@ const EditorDivider = styled.hr`
 const EditorTitleBox = styled.textarea`
   background: #ffffff;
   font-size: 24px;
-  height: 5%;
+  height: 7%;
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;

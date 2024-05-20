@@ -1,20 +1,18 @@
 import { createBrowserRouter } from 'react-router-dom'
-import LoginPage from './pages/LoginPage'
-import MainPage from './pages/MainPage'
 import IssueWritePage from './pages/IssueWritePage'
+import ROUTE_PATH from './shared/constants/path'
+import React from 'react'
+import Layout from './shared/components/Layout/Layout'
 
 const router = createBrowserRouter([
   {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/',
-    element: <IssueWritePage />,
+    path: ROUTE_PATH.ROOT,
+    element: <Layout />,
     children: [
-      { path: 'home', element: <MainPage /> },
-      { path: 'issue', element: <IssueWritePage /> },
-      { path: 'issue-list', element: <MainPage /> },
+      {
+        path: ROUTE_PATH.ISSUE_WRITE,
+        element: <IssueWritePage />,
+      },
     ],
   },
 ])
