@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { MarkdownPreview } from '../features/markdown/component/MarkdownPreview'
-import TitleBox from '../features/markdown/component/WritingTitle'
-import Editor from '../features/markdown/component/Editor'
+import { MarkdownPreview } from '../features/markdown/components/MarkdownPreview'
+import TitleBox from '../features/markdown/components/WritingTitle'
+import Editor from '../features/markdown/components/Editor'
 
 function IssueWritePage() {
   const [content, setContent] = useState('')
