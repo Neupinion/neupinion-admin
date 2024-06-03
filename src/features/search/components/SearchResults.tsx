@@ -2,50 +2,9 @@ import styled from 'styled-components'
 import React from 'react'
 import { IssueArticles, Stand } from '../types/IssueArticle.type'
 import SearchResult from './SearchResult'
-import Spacing from '../../../shared/components/Spacing'
 
 interface SearchResultsProps {
   data: IssueArticles | null
-}
-
-const dummyDatas: IssueArticles = {
-  stand: 'positive',
-  positive: [
-    {
-      title: 'title',
-      url: 'url',
-      publishedAt: 'publishedAt',
-      reason: 'reason',
-    },
-    {
-      title: 'title',
-      url: 'url',
-      publishedAt: 'publishedAt',
-      reason: 'reason',
-    },
-    {
-      title: 'title',
-      url: 'url',
-      publishedAt: 'publishedAt',
-      reason: 'reason',
-    },
-  ],
-  negative: [
-    {
-      title: 'title',
-      url: 'url',
-      publishedAt: 'publishedAt',
-      reason: 'reason',
-    },
-  ],
-  neutral: [
-    {
-      title: 'title',
-      url: 'url',
-      publishedAt: 'publishedAt',
-      reason: 'reason',
-    },
-  ],
 }
 
 const SearchResults = ({ data }: SearchResultsProps) => {
@@ -64,7 +23,7 @@ const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: fit-content;
   justify-content: flex-start;
 
   background-color: aliceblue;

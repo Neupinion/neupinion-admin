@@ -14,6 +14,7 @@ const useFetch = <T>(fetcher: () => Promise<T>, defaultFetch = true) => {
       const data = await fetcher()
       setData(data)
     } catch (error) {
+      console.log(error)
       setError(error as ErrorResponse)
     } finally {
       setIsLoading(false)

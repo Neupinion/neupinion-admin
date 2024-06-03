@@ -1,6 +1,6 @@
 import axios, { CreateAxiosDefaults } from 'axios'
 
-const BASE_URL = 'https://neupinion.com/ai'
+const BASE_URL = 'https://dev.neupinion.com/'
 
 const defaultConfig: CreateAxiosDefaults = {
   baseURL: BASE_URL,

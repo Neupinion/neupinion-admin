@@ -4,7 +4,6 @@ import Spacing from '../shared/components/Spacing'
 import theme from '../shared/styles/theme'
 import SquareButton from '../shared/components/Button'
 import { postIssueArticles } from '../features/search/remotes/issueArticles'
-import useFetch from '../shared/hooks/useFetch'
 import { IssueArticles } from '../features/search/types/IssueArticle.type'
 import SearchResults from '../features/search/components/SearchResults'
 
@@ -13,6 +12,8 @@ const NewsSearchPage = () => {
   const [description, setDescription] = useState<string>('')
   const [stands, setStands] = useState<string>('')
   const [writerStand, setStand] = useState<string>('')
+  const [data, setData] = useState<IssueArticles | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
@@ -21,15 +22,20 @@ const NewsSearchPage = () => {
   }
 
   const fetchIssueArticles = useCallback(() => {
-    return postIssueArticles({
+    setLoading(true)
+    postIssueArticles({
       searchKeyword: issue,
       issueDescription: description,
       stands: stands.split(','),
       selectedStand: writerStand,
     })
+      .then(response => {
+        setData(response)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [issue, description, stands, writerStand])
-
-  const { data } = useFetch<IssueArticles>(fetchIssueArticles)
 
   return (
     <Container>
@@ -74,7 +80,13 @@ const NewsSearchPage = () => {
         />
       </InputFlex>
       <ResultFlex>
-        {data ? <SearchResults data={data} /> : <EmptyContainer />}
+        {loading ? (
+          <div>Loading...</div>
+        ) : data ? (
+          <SearchResults data={data} />
+        ) : (
+          <EmptyContainer>결과가 없습니다</EmptyContainer>
+        )}
       </ResultFlex>
     </Container>
   )

@@ -1,9 +1,8 @@
-import { IssueArticle, IssueArticles, Stand } from '../types/IssueArticle.type'
+import { IssueArticle, Stand } from '../types/IssueArticle.type'
 import styled from 'styled-components'
 import theme from '../../../shared/styles/theme'
 import Spacing from '../../../shared/components/Spacing'
 import React from 'react'
-import HorizontalContainer from '../../../shared/components/HorizontalContainer'
 
 interface SearchResultProps {
   stand: Stand
@@ -15,17 +14,17 @@ const SearchResult = ({ stand, result }: SearchResultProps) => {
     <Container>
       <ViewLabel stand={stand}>{stand}</ViewLabel>
       <Spacing size={30} direction={'horizontal'} />
-      {result &&
-        result.map((article, index) => (
-          <ArticleContainer key={index}>
-            <HorizontalContainer>
+      <>
+        {result &&
+          result.map((article, index) => (
+            <ArticleContainer key={index}>
               <URL href={article.url}>{article.title}</URL>
-              <Spacing size={10} direction={'horizontal'} />
               <PublishedAt>{article.publishedAt}</PublishedAt>
-            </HorizontalContainer>
-            <Reason>{article.reason}</Reason>
-          </ArticleContainer>
-        ))}
+              <Spacing size={10} direction={'vertical'} />
+              <Reason>{article.reason}</Reason>
+            </ArticleContainer>
+          ))}
+      </>
     </Container>
   )
 }
@@ -35,6 +34,7 @@ export default SearchResult
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 30%;
 `
 
 const ViewLabel = styled.div<{ stand: Stand }>`
