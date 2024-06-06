@@ -17,10 +17,10 @@ const Editor = (props: EditorProps) => {
 export default Editor
 
 const EditorTextBox = styled.textarea`
-  font-size: 20px;
+  font-size: 18px;
   height: 100%;
   overflow: auto;
-  width: 50%;
+  width: 100%;
   outline: none;
   border: none;
   resize: none;
