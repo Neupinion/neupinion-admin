@@ -3,10 +3,18 @@ import styled from 'styled-components'
 import { MarkdownPreview } from '../features/markdown/components/MarkdownPreview'
 import Editor from '../features/markdown/components/Editor'
 import WritingTitle from '../features/markdown/components/WritingTitle'
+import Button from '../shared/components/Button'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 function IssueWritePage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const navigate = useNavigate()
+
+  const handlePublish = () => {
+    console.log('Publishing with:', { title, content }) // Debug log
+    navigate('/issue/post', { state: { title, content } })
+  }
 
   return (
     <Container>
@@ -18,11 +26,20 @@ function IssueWritePage() {
         <EditorContainer>
           <Editor onChange={setContent} />
         </EditorContainer>
-        <EditorFooter />
+        <EditorFooter>
+          <Button
+            label={'발행하기'}
+            selectable={true}
+            color={'purple'}
+            height={60}
+            onClick={handlePublish}
+          />
+        </EditorFooter>
       </WritingContainer>
       <MarkdownContainer>
         <MarkdownPreview title={title} content={content} />
       </MarkdownContainer>
+      <Outlet />
     </Container>
   )
 }
