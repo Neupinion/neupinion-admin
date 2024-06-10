@@ -12,7 +12,6 @@ function IssueWritePage() {
   const navigate = useNavigate()
 
   const handlePublish = () => {
-    console.log('Publishing with:', { title, content }) // Debug log
     navigate('/issue/post', { state: { title, content } })
   }
 
@@ -28,7 +27,7 @@ function IssueWritePage() {
         </EditorContainer>
         <EditorFooter>
           <Button
-            label={'발행하기'}
+            label={'키워드 확인하기'}
             selectable={true}
             color={'purple'}
             height={60}
