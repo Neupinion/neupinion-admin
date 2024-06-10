@@ -19,7 +19,7 @@ export default Editor
 const EditorTextBox = styled.textarea`
   font-size: 18px;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
   width: 100%;
   outline: none;
   border: none;

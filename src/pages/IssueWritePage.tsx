@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { MarkdownPreview } from '../features/markdown/components/MarkdownPreview'
-import TitleBox from '../features/markdown/components/WritingTitle'
 import Editor from '../features/markdown/components/Editor'
 import WritingTitle from '../features/markdown/components/WritingTitle'
 
@@ -16,7 +15,10 @@ function IssueWritePage() {
           <WritingTitle onChange={setTitle} />
           <LineDivider />
         </FixedTitle>
-        <Editor onChange={setContent} />
+        <EditorContainer>
+          <Editor onChange={setContent} />
+        </EditorContainer>
+        <EditorFooter />
       </WritingContainer>
       <MarkdownContainer>
         <MarkdownPreview title={title} content={content} />
@@ -32,8 +34,6 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
-  padding: 10px;
 `
 
 const FixedTitle = styled.div`
@@ -59,16 +59,33 @@ const LineDivider = styled.hr`
 
 const WritingContainer = styled.div`
   margin-top: 15px;
-  min-height: calc(100% - 60px);
-  max-height: fit-content;
   display: flex;
   flex-direction: column;
   width: 50%;
+  height: calc(100% - 15px);
+`
+
+const EditorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+`
+
+const EditorFooter = styled.div`
+  position: sticky;
+  background-color: lightgrey;
+  height: 60px;
+  width: 100%;
+  bottom: 0;
+  z-index: 1;
 `
 
 const MarkdownContainer = styled.div`
   width: 50%;
   height: 100%;
-  overflow: auto;
-  padding: 10px;
+  background: #eeeeee;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `
