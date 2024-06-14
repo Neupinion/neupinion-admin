@@ -1,8 +1,8 @@
 export interface IssueArticles {
   stand: string
-  positive: IssueArticle[]
-  negative: IssueArticle[]
-  neutral: IssueArticle[]
+  positiveArticles: IssueArticle[]
+  negativeArticles: IssueArticle[]
+  neutralArticles: IssueArticle[]
 }
 
 export interface IssueArticle {
@@ -15,7 +15,7 @@ export interface IssueArticle {
 export interface IssueArticleRequest {
   searchKeyword: string
   issueDescription: string
-  stands: string[]
+  stands: string
   selectedStand: string
 }
 
@@ -23,4 +23,10 @@ export enum Stand {
   POSITIVE = 'POSITIVE',
   NEGATIVE = 'NEGATIVE',
   NEUTRAL = 'NEUTRAL',
+}
+
+export interface StandReference {
+  title: string
+  stand: Stand
+  url: string
 }

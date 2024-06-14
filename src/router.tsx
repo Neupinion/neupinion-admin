@@ -5,6 +5,7 @@ import React from 'react'
 import Layout from './shared/components/Layout/Layout'
 import NewsSearchPage from './pages/NewsSearchPage'
 import IssuePostingPage from './pages/IssuePostingPage'
+import IssueKeywordsPage from './pages/IssueKeywordPage'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: ROUTE_PATH.ISSUE_POSTING,
         element: <IssuePostingPage />,
+      },
+      {
+        path: ROUTE_PATH.ISSUE_KEYWORD,
+        element: <IssueKeywordsPage />,
       },
     ],
   },

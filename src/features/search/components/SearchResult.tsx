@@ -7,9 +7,16 @@ import React from 'react'
 interface SearchResultProps {
   stand: Stand
   result: IssueArticle[] | undefined
+  onSelect: (stand: Stand, url: string, title: string) => void
+  selectedUrls: string[]
 }
 
-const SearchResult = ({ stand, result }: SearchResultProps) => {
+const SearchResult = ({
+  stand,
+  result,
+  onSelect,
+  selectedUrls,
+}: SearchResultProps) => {
   return (
     <Container>
       <ViewLabel stand={stand}>{stand}</ViewLabel>
@@ -17,8 +24,14 @@ const SearchResult = ({ stand, result }: SearchResultProps) => {
       <>
         {result &&
           result.map((article, index) => (
-            <ArticleContainer key={index}>
-              <URL href={article.url}>{article.title}</URL>
+            <ArticleContainer
+              key={index}
+              onClick={() => onSelect(stand, article.url, article.title)}
+              isSelected={selectedUrls.includes(article.url)}
+            >
+              <URL href={article.url} target="_blank" rel="noopener noreferrer">
+                {article.title}
+              </URL>
               <PublishedAt>{article.publishedAt}</PublishedAt>
               <Spacing size={10} direction={'vertical'} />
               <Reason>{article.reason}</Reason>
@@ -53,10 +66,15 @@ const ViewLabel = styled.div<{ stand: Stand }>`
   margin-bottom: 10px;
 `
 
-const ArticleContainer = styled.div`
+const ArticleContainer = styled.div<{ isSelected: boolean }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  cursor: pointer;
+  background-color: ${({ isSelected }) =>
+    isSelected ? '#e0f7fa' : 'transparent'};
+  padding: 10px;
+  border-radius: 5px;
 `
 
 const URL = styled.a`

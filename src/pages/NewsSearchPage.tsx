@@ -1,19 +1,39 @@
 import styled from 'styled-components'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Spacing from '../shared/components/Spacing'
 import theme from '../shared/styles/theme'
 import SquareButton from '../shared/components/Button'
 import { postIssueArticles } from '../features/search/remotes/issueArticles'
-import { IssueArticles } from '../features/search/types/IssueArticle.type'
+import {
+  IssueArticles,
+  Stand,
+  StandReference,
+} from '../features/search/types/IssueArticle.type'
 import SearchResults from '../features/search/components/SearchResults'
+import { useNavigate } from 'react-router-dom'
 
 const NewsSearchPage = () => {
   const [issue, setIssue] = useState<string>('')
   const [description, setDescription] = useState<string>('')
-  const [stands, setStands] = useState<string>('')
+  const [oppositeStand, setOppositeStand] = useState<string>('')
   const [writerStand, setStand] = useState<string>('')
   const [data, setData] = useState<IssueArticles | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [selectedReferences, setSelectedReferences] = useState<
+    StandReference[]
+  >([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const savedState = JSON.parse(sessionStorage.getItem('issueSearch') || '{}')
+    if (savedState) {
+      setIssue(savedState.issue || '')
+      setDescription(savedState.description || '')
+      setOppositeStand(savedState.oppositeStand || '')
+      setStand(savedState.writerStand || '')
+      setSelectedReferences(savedState.selectedReferences || [])
+    }
+  }, [])
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
@@ -21,12 +41,25 @@ const NewsSearchPage = () => {
     }
   }
 
+  useEffect(() => {
+    sessionStorage.setItem(
+      'issueSearch',
+      JSON.stringify({
+        issue,
+        description,
+        oppositeStand,
+        writerStand,
+        selectedReferences,
+      }),
+    )
+  }, [issue, description, oppositeStand, writerStand, selectedReferences])
+
   const fetchIssueArticles = useCallback(() => {
     setLoading(true)
     postIssueArticles({
       searchKeyword: issue,
       issueDescription: description,
-      stands: stands.split(','),
+      stands: writerStand.concat(',', oppositeStand),
       selectedStand: writerStand,
     })
       .then(response => {
@@ -35,7 +68,21 @@ const NewsSearchPage = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [issue, description, stands, writerStand])
+  }, [issue, description, oppositeStand, writerStand])
+
+  const handleSelectReference = (stand: Stand, url: string, title: string) => {
+    setSelectedReferences([...selectedReferences, { title, stand, url }])
+  }
+
+  const handleProceed = () => {
+    navigate('/issue', {
+      state: {
+        selectedStand: writerStand,
+        oppositeStand: oppositeStand,
+        references: selectedReferences,
+      },
+    })
+  }
 
   return (
     <Container>
@@ -54,20 +101,20 @@ const NewsSearchPage = () => {
           id="issueStand"
           onChange={e => setDescription(e.target.value)}
         />
-        <Spacing direction={'vertical'} size={30} />
-        <Label>이슈의 입장들을 쉼표로 구분해서 입력해주세요.</Label>
-        <Spacing direction={'vertical'} size={20} />
-        <ShortTextArea
-          id="stands"
-          onChange={e => setStands(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <Spacing size={50} direction={'vertical'} />
+        <Spacing size={30} direction={'vertical'} />
         <Label>에디터의 입장을 입력해주세요.</Label>
         <Spacing direction={'vertical'} size={20} />
         <ShortTextArea
           id="writerStand"
           onChange={e => setStand(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <Spacing size={30} direction={'vertical'} />
+        <Label>반대되는 입장을 입력해주세요.</Label>
+        <Spacing direction={'vertical'} size={20} />
+        <ShortTextArea
+          id="oppositeStand"
+          onChange={e => setOppositeStand(e.target.value)}
           onKeyDown={handleKeyDown}
         />
         <Spacing direction={'vertical'} size={50} />
@@ -83,9 +130,14 @@ const NewsSearchPage = () => {
         {loading ? (
           <div>Loading...</div>
         ) : data ? (
-          <SearchResults data={data} />
+          <SearchResults data={data} onSelect={handleSelectReference} />
         ) : (
           <EmptyContainer>결과가 없습니다</EmptyContainer>
+        )}
+        {selectedReferences.length > 0 && (
+          <ProceedButton onClick={handleProceed}>
+            작성 페이지로 이동하기
+          </ProceedButton>
         )}
       </ResultFlex>
     </Container>
@@ -163,4 +215,15 @@ const EmptyContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+`
+
+const ProceedButton = styled.button`
+  padding: 10px 20px;
+  background-color: ${theme.colors.purple};
+  color: ${theme.colors.white};
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
 `
